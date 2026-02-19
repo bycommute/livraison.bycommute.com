@@ -1,0 +1,25 @@
+/**
+ * Ordre canonique des étapes et garde-fou (ids Odoo x_avancee_du_projet).
+ * Aligné sur docs/ANALYSE_ODOO_ET_ARCHITECTURE.md
+ */
+export const STEP_IDS = {
+  COMMANDE_CONFIRMEE: 1,
+  COMMANDE_ENVOYEE_ATELIERS: 2,
+  INSTALLATION_PROGRAMMEE: 3,
+  COMMANDE_PRETE_ENLEVEMENT: 4,
+  ENTIEREMENT_LIVREE: 5,
+  ACOMPTE_NON_PAYE: 6,
+  ACOMPTE_PAYE: 7,
+} as const
+
+/** Étapes de progression (ordre d'affichage). 3 et 4 peuvent être inversés. */
+export const PROGRESS_STEP_IDS: number[] = [
+  STEP_IDS.COMMANDE_CONFIRMEE,
+  STEP_IDS.COMMANDE_ENVOYEE_ATELIERS,
+  STEP_IDS.INSTALLATION_PROGRAMMEE,
+  STEP_IDS.COMMANDE_PRETE_ENLEVEMENT,
+  STEP_IDS.ENTIEREMENT_LIVREE,
+]
+
+export const GUARD_ACOMPTE_NON_PAYE = STEP_IDS.ACOMPTE_NON_PAYE
+export const GUARD_ACOMPTE_PAYE = STEP_IDS.ACOMPTE_PAYE

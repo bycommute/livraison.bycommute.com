@@ -1,0 +1,91 @@
+.section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.intro {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+}
+
+.contactBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contactBlock + .contactBlock {
+  margin-top: 1.25rem;
+}
+
+.iconWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.contactLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.contactValue {
+  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.contactValue:hover {
+  text-decoration: underline;
+}
+
+.contactDetail {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.footer {
+  margin: 1.25rem 0 0;
+  text-align: center;
+}
+
+.adminLink {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.adminLink:hover {
+  color: var(--color-text);
+}
