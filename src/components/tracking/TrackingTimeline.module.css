@@ -1,61 +1,145 @@
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.orderRef {
+  margin: 0 0 1rem;
+  text-align: center;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+}
+
 .timeline {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: var(--color-card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1rem;
 }
 
 .item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px 1fr;
   align-items: flex-start;
-  gap: 1rem;
+  column-gap: 0.875rem;
+}
+
+.item + .item {
+  margin-top: 0.5rem;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connector {
+  width: 2px;
+  min-height: 44px;
+  margin-top: 0.35rem;
+  border-radius: 99px;
+  background: #e2e8f0;
 }
 
 .marker {
-  flex-shrink: 0;
-  width: 12px;
-  height: 12px;
-  margin-top: 0.35rem;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: var(--color-border);
-  border: 2px solid var(--color-card);
-  box-shadow: var(--shadow-card);
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
 }
 
-.markerReached {
+.markerDone {
   background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.markerCurrent {
+  background: var(--color-primary-light);
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-80);
+  box-shadow: 0 0 0 4px var(--color-primary-ring);
+}
+
+.markerUpcoming {
+  background: #f1f5f9;
+  color: #94a3b8;
+  border-color: #e2e8f0;
 }
 
 .content {
-  flex: 1;
-  padding-bottom: 1rem;
+  padding-top: 0.15rem;
+  min-width: 0;
 }
 
 .label {
-  font-size: 1rem;
-  font-weight: 500;
+  margin: 0;
+  font-size: 1.03rem;
+  font-weight: 600;
   color: var(--color-text);
 }
 
-.arrow {
-  padding-left: 0.25rem;
-  padding-bottom: 0.5rem;
+.caption {
+  margin: 0.2rem 0 0;
+  font-size: 0.87rem;
+  color: var(--color-text-muted);
 }
 
-.arrowLine {
-  display: block;
-  width: 2px;
-  height: 24px;
-  margin-left: 5px;
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--color-border) 0,
-    var(--color-border) 4px,
-    transparent 4px,
-    transparent 8px
-  );
+.itemDone .label {
+  color: #334155;
+}
+
+.itemCurrent .label {
+  color: #1e293b;
+}
+
+.itemCurrent .caption {
+  color: var(--color-primary-80);
+  font-weight: 600;
+}
+
+.itemUpcoming .label {
+  color: #94a3b8;
+}
+
+.itemUpcoming .caption {
+  color: #94a3b8;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .orderRef {
+    font-size: 1.55rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .timeline {
+    padding: 0.875rem;
+  }
+
+  .marker {
+    width: 26px;
+    height: 26px;
+  }
+
+  .connector {
+    min-height: 40px;
+  }
+
+  .label {
+    font-size: 0.97rem;
+  }
 }

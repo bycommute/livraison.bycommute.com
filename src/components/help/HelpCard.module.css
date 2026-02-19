@@ -20,17 +20,21 @@
   background: var(--color-card);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: 1.5rem;
+  border: 1px solid rgba(128, 186, 39, 0.1);
+  padding: 1.25rem;
 }
 
 .contactBlock {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
+  padding: 0.25rem 0;
 }
 
 .contactBlock + .contactBlock {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
 }
 
 .iconWrap {
@@ -38,11 +42,39 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--color-primary-light);
   color: var(--color-primary);
+}
+
+.contactContent {
+  min-width: 0;
+  flex: 1;
+}
+
+.managerLabel {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.managerName {
+  margin: 0;
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.managerHint {
+  margin: 0 0 0.65rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
 }
 
 .icon {
@@ -60,10 +92,11 @@
 
 .contactValue {
   display: block;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.06rem;
+  line-height: 1.35;
+  font-weight: 600;
   color: var(--color-primary);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
 .contactValue:hover {
@@ -76,16 +109,24 @@
   color: var(--color-text-muted);
 }
 
-.footer {
-  margin: 1.25rem 0 0;
-  text-align: center;
-}
+@media (max-width: 680px) {
+  .card {
+    padding: 1rem;
+  }
 
-.adminLink {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-}
+  .contactValue {
+    font-size: 1rem;
+  }
 
-.adminLink:hover {
-  color: var(--color-text);
+  .managerLabel {
+    font-size: 0.78rem;
+  }
+
+  .managerName {
+    font-size: 1rem;
+  }
+
+  .managerHint {
+    font-size: 0.84rem;
+  }
 }

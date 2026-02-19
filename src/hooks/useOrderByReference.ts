@@ -1,13 +1,15 @@
 import { useState, useCallback } from 'react'
-import { getOrderByReference } from '@/api/odoo/sale-order'
-import { getAvanceeSteps } from '@/api/odoo/avancee'
 import type { Order } from '@/domain/order'
 import {
   computeTimelineState,
   stepLabelsMap,
   type TimelineState,
 } from '@/domain/timeline'
-import { OdooJson2Error } from '@/api/odoo/client'
+
+type OrderStatusApiResponse = {
+  order: Order | null
+  steps: { id: number; x_name: string }[]
+}
 
 export type OrderResult =
   | { type: 'idle' }
@@ -26,10 +28,22 @@ export function useOrderByReference() {
     setResult({ type: 'loading' })
 
     try {
-      const [order, steps] = await Promise.all([
-        getOrderByReference(ref),
-        getAvanceeSteps(),
-      ])
+      const response = await fetch(
+        `/api/order-status?reference=${encodeURIComponent(ref)}`
+      )
+      const body = (await response.json()) as
+        | OrderStatusApiResponse
+        | { error?: string }
+
+      if (!response.ok) {
+        const message =
+          typeof body === 'object' && body && 'error' in body && body.error
+            ? body.error
+            : `HTTP ${response.status}`
+        throw new Error(message)
+      }
+
+      const { order, steps } = body as OrderStatusApiResponse
 
       if (!order) {
         setResult({ type: 'not_found', reference: ref })
@@ -41,11 +55,7 @@ export function useOrderByReference() {
       setResult({ type: 'ok', order, timeline })
     } catch (err) {
       const message =
-        err instanceof OdooJson2Error
-          ? err.message
-          : err instanceof Error
-            ? err.message
-            : 'Erreur de connexion'
+        err instanceof Error ? err.message : 'Erreur de connexion'
       setResult({ type: 'error', reference: ref, message })
     }
   }, [])

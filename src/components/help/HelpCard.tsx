@@ -1,9 +1,20 @@
 import styles from './HelpCard.module.css'
 
-const PHONE = '07 43 39 56 18'
-const EMAIL = 'contact@bycommute.fr'
+const DEFAULT_PHONE = '07 43 39 56 18'
+const EMAIL = 'achat@bycommute.fr'
 
-export function HelpCard() {
+type HelpCardProps = {
+  phone?: string | null
+  projectManagerName?: string | null
+}
+
+export function HelpCard({ phone, projectManagerName }: HelpCardProps) {
+  const displayManagerName = projectManagerName?.trim() || null
+  const hasAssignedManager = Boolean(displayManagerName)
+  const displayPhone =
+    hasAssignedManager && phone?.trim() ? phone : DEFAULT_PHONE
+  const telHref = displayPhone.replace(/\s/g, '')
+
   return (
     <section className={styles.section} aria-labelledby="help-heading">
       <h2 id="help-heading" className={styles.title}>
@@ -14,14 +25,27 @@ export function HelpCard() {
         concernant votre commande.
       </p>
       <div className={styles.card}>
+        {hasAssignedManager && (
+          <div className={styles.contactBlock}>
+            <div className={styles.iconWrap}>
+              <UserIcon className={styles.icon} />
+            </div>
+            <div className={styles.contactContent}>
+              <span className={styles.managerLabel}>Le gestionnaire de votre projet</span>
+              <p className={styles.managerName}>{displayManagerName}</p>
+              <p className={styles.managerHint}>Personne assignée à votre projet</p>
+            </div>
+          </div>
+        )}
+
         <div className={styles.contactBlock}>
           <div className={styles.iconWrap}>
             <PhoneIcon className={styles.icon} />
           </div>
-          <div>
+          <div className={styles.contactContent}>
             <span className={styles.contactLabel}>Par téléphone</span>
-            <a href={`tel:${PHONE.replace(/\s/g, '')}`} className={styles.contactValue}>
-              {PHONE}
+            <a href={`tel:${telHref}`} className={styles.contactValue}>
+              {displayPhone}
             </a>
             <p className={styles.contactDetail}>
               Du lundi au vendredi, de 9h à 18h
@@ -43,12 +67,27 @@ export function HelpCard() {
           </div>
         </div>
       </div>
-      <p className={styles.footer}>
-        <a href="/admin" className={styles.adminLink}>
-          Accès administrateur
-        </a>
-      </p>
     </section>
+  )
+}
+
+function UserIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M20 21a8 8 0 0 0-16 0" />
+      <circle cx="12" cy="8" r="4" />
+    </svg>
   )
 }
 

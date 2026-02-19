@@ -21,6 +21,8 @@ export interface Order {
   id: number
   name: string
   partnerName: string | null
+  projectManagerName?: string | null
+  projectManagerPhone?: string | null
   /** IDs des étiquettes d'avancement (many2many). */
   avanceeIds: number[]
 }

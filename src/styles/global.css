@@ -4,9 +4,12 @@
   --color-card: #ffffff;
   --color-text: #2d3748;
   --color-text-muted: #718096;
-  --color-primary: #22c55e;
-  --color-primary-hover: #16a34a;
-  --color-primary-light: #dcfce7;
+  --color-primary: #80ba27;
+  --color-primary-hover: #6c9e20;
+  --color-primary-80: rgba(128, 186, 39, 0.8);
+  --color-primary-light: rgba(128, 186, 39, 0.16);
+  --color-primary-soft: rgba(128, 186, 39, 0.24);
+  --color-primary-ring: rgba(128, 186, 39, 0.3);
   --color-border: #e2e8f0;
   --color-warning-bg: #fef9c3;
   --color-warning-icon: #eab308;

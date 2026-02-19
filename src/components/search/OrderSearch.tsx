@@ -2,15 +2,17 @@ import { useState, type FormEvent } from 'react'
 import styles from './OrderSearch.module.css'
 
 interface OrderSearchProps {
+  defaultReference?: string
   onSearch: (reference: string) => void
   isLoading?: boolean
 }
 
 export function OrderSearch({
+  defaultReference = '',
   onSearch,
   isLoading = false,
 }: OrderSearchProps) {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(defaultReference)
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -37,7 +39,7 @@ export function OrderSearch({
             id="order-ref"
             type="text"
             className={styles.input}
-            placeholder="Ex. D3258"
+            placeholder="Ex. D1234"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             disabled={isLoading}

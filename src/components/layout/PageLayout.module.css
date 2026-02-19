@@ -20,11 +20,26 @@
   color: var(--color-text);
 }
 
-.logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  letter-spacing: 0.02em;
+.logoImage {
+  display: block;
+  width: 210px;
+  max-width: 42vw;
+  height: auto;
+}
+
+@media (max-width: 560px) {
+  .header {
+    padding: 0.875rem 1rem;
+  }
+
+  .headerTitle {
+    font-size: 1rem;
+  }
+
+  .logoImage {
+    width: 150px;
+    max-width: 44vw;
+  }
 }
 
 .main {
