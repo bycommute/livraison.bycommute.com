@@ -51,7 +51,10 @@ export function useOrderByReference() {
       }
 
       const labels = stepLabelsMap(steps)
-      const timeline = computeTimelineState(order.avanceeIds, labels)
+      const timeline = computeTimelineState(order.avanceeIds, labels, {
+        hasUrbanisme: order.hasUrbanisme,
+        hasInstallation: order.hasInstallation,
+      })
       setResult({ type: 'ok', order, timeline })
     } catch (err) {
       const message =

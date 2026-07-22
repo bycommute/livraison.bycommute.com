@@ -1,5 +1,8 @@
 import type { Config, Context } from "@netlify/functions";
 
+const URBANISME_PRODUCT_TEMPLATE_ID = 25;
+const INSTALLATION_PRODUCT_TEMPLATE_ID = 432;
+
 type RawSaleOrder = {
   id: number;
   name: string;
@@ -17,6 +20,11 @@ type RawUser = {
   id: number;
   name: string;
   phone?: string | false;
+};
+
+type RawOrderLine = {
+  product_template_id?: [number, string] | number | false;
+  product_uom_qty?: number;
 };
 
 class HttpError extends Error {
@@ -103,6 +111,19 @@ function normalizeOrder(raw: RawSaleOrder) {
   };
 }
 
+function getOrderedProductTemplateIds(lines: RawOrderLine[]): Set<number> {
+  return new Set(
+    lines
+      .filter((line) => Number(line.product_uom_qty ?? 0) >= 1)
+      .map((line) => {
+        const relation = line.product_template_id;
+        if (Array.isArray(relation)) return Number(relation[0]);
+        return typeof relation === "number" ? relation : null;
+      })
+      .filter((id): id is number => typeof id === "number" && Number.isFinite(id))
+  );
+}
+
 export default async (req: Request, _context: Context) => {
   try {
     const url = new URL(req.url);
@@ -138,12 +159,27 @@ export default async (req: Request, _context: Context) => {
       Array.isArray(orders) && orders.length > 0 ? normalizeOrder(orders[0]) : null;
     const safeSteps = Array.isArray(steps) ? steps : [];
     let projectManagerPhone: string | null = null;
+    let hasUrbanisme = false;
+    let hasInstallation = false;
 
-    if (order?.projectManagerId) {
-      const users = await odooCall<RawUser[]>(cfg, "res.users", "read", {
-        ids: [order.projectManagerId],
-        fields: ["name", "phone"],
-      });
+    if (order) {
+      const [lines, users] = await Promise.all([
+        odooCall<RawOrderLine[]>(cfg, "sale.order.line", "search_read", {
+          domain: [["order_id", "=", order.id], ["display_type", "=", false]],
+          fields: ["product_template_id", "product_uom_qty"],
+        }),
+        order.projectManagerId
+          ? odooCall<RawUser[]>(cfg, "res.users", "read", {
+              ids: [order.projectManagerId],
+              fields: ["name", "phone"],
+            })
+          : Promise.resolve<RawUser[]>([]),
+      ]);
+      const orderedTemplateIds = getOrderedProductTemplateIds(
+        Array.isArray(lines) ? lines : []
+      );
+      hasUrbanisme = orderedTemplateIds.has(URBANISME_PRODUCT_TEMPLATE_ID);
+      hasInstallation = orderedTemplateIds.has(INSTALLATION_PRODUCT_TEMPLATE_ID);
       const user = Array.isArray(users) && users.length > 0 ? users[0] : null;
       projectManagerPhone = typeof user?.phone === "string" ? user.phone : null;
     }
@@ -154,6 +190,8 @@ export default async (req: Request, _context: Context) => {
           ? {
               ...order,
               projectManagerPhone,
+              hasUrbanisme,
+              hasInstallation,
             }
           : null,
         steps: safeSteps,

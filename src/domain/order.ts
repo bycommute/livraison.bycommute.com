@@ -25,9 +25,17 @@ export interface Order {
   projectManagerPhone?: string | null
   /** IDs des étiquettes d'avancement (many2many). */
   avanceeIds: number[]
+  hasUrbanisme: boolean
+  hasInstallation: boolean
 }
 
-export function normalizeOrder(raw: RawSaleOrder): Order {
+export function normalizeOrder(
+  raw: RawSaleOrder,
+  features: Pick<Order, 'hasUrbanisme' | 'hasInstallation'> = {
+    hasUrbanisme: false,
+    hasInstallation: false,
+  }
+): Order {
   const partnerName =
     Array.isArray(raw.partner_id) && raw.partner_id[1]
       ? raw.partner_id[1]
@@ -41,5 +49,6 @@ export function normalizeOrder(raw: RawSaleOrder): Order {
     name: raw.name,
     partnerName,
     avanceeIds,
+    ...features,
   }
 }

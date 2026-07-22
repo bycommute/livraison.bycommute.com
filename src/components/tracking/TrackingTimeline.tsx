@@ -9,6 +9,8 @@ interface TrackingTimelineProps {
 type VisualStatus = 'done' | 'current' | 'upcoming'
 
 function computeVisualStatuses(steps: TimelineStep[]): VisualStatus[] {
+  if (steps.at(-1)?.completed) return steps.map(() => 'done')
+
   const reachedIndexes = steps
     .map((step, index) => (step.reached ? index : -1))
     .filter((index) => index >= 0)
@@ -18,7 +20,9 @@ function computeVisualStatuses(steps: TimelineStep[]): VisualStatus[] {
 
   return steps.map((step, index) => {
     if (index < activeIndex) return 'done'
-    if (index === activeIndex) return step.reached ? 'current' : 'upcoming'
+    if (index === activeIndex) {
+      return step.reached ? (step.completed ? 'done' : 'current') : 'upcoming'
+    }
     return 'upcoming'
   })
 }
@@ -69,6 +73,32 @@ export function TrackingTimeline({ orderReference, steps }: TrackingTimelineProp
                       ? 'Étape en cours'
                       : 'Étape à venir'}
                 </p>
+                {step.substeps && step.substeps.length > 0 && (
+                  <div
+                    className={styles.substeps}
+                    role="list"
+                    aria-label={`Sous-étapes ${step.label}`}
+                  >
+                    {step.substeps.map((substep) => (
+                      <div
+                        key={substep.id}
+                        className={`${styles.substep} ${
+                          substep.status === 'done'
+                            ? styles.substepDone
+                            : substep.status === 'current'
+                              ? styles.substepCurrent
+                              : styles.substepUpcoming
+                        }`}
+                        role="listitem"
+                      >
+                        <span className={styles.substepMarker} aria-hidden>
+                          {substep.status === 'done' ? '✓' : ''}
+                        </span>
+                        <span>{substep.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </article>
           )

@@ -12,14 +12,15 @@ export const STEP_IDS = {
   ACOMPTE_PAYE: 7,
 } as const
 
-/** Étapes de progression (ordre d'affichage). 3 et 4 peuvent être inversés. */
-export const PROGRESS_STEP_IDS: number[] = [
-  STEP_IDS.COMMANDE_CONFIRMEE,
-  STEP_IDS.COMMANDE_ENVOYEE_ATELIERS,
-  STEP_IDS.INSTALLATION_PROGRAMMEE,
-  STEP_IDS.COMMANDE_PRETE_ENLEVEMENT,
-  STEP_IDS.ENTIEREMENT_LIVREE,
-]
+export const URBANISME_PRODUCT_TEMPLATE_ID = 25
+export const INSTALLATION_PRODUCT_TEMPLATE_ID = 432
+export const URBANISME_STEP_ID = -URBANISME_PRODUCT_TEMPLATE_ID
+
+export const URBANISME_SUBSTEP_LABELS = [
+  "Urbanisme : Dossier en cours de création",
+  "Urbanisme : Dossier en cours d'instruction",
+  "Urbanisme : Dossier accepté",
+] as const
 
 export const GUARD_ACOMPTE_NON_PAYE = STEP_IDS.ACOMPTE_NON_PAYE
 export const GUARD_ACOMPTE_PAYE = STEP_IDS.ACOMPTE_PAYE
